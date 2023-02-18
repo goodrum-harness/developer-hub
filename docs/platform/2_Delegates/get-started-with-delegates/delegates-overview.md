@@ -1,6 +1,6 @@
 ---
 title: Delegate overview
-description: Harness Delegate is a service you run in your local network or VPC to connect your artifact, infrastructure, collaboration, verification and other providers with Harness Manager.
+description: This topic provides basic information about Harness Delegate.
 sidebar_position: 10
 helpdocs_topic_id: 2k7lnc7lvl
 helpdocs_category_id: sy6sod35zi
@@ -8,14 +8,13 @@ helpdocs_is_private: false
 helpdocs_is_published: true
 ---
 
-Harness Delegate is a service you run in your local network or VPC to connect your artifacts, infrastructure, collaboration, verification and other providers, with Harness Manager.
+Harness Delegate is a service you run in your local network or VPC to connect artifacts, infrastructure, collaboration, verification and other providers, with Harness Manager.
 
-The first time you connect Harness to a third-party resource, Harness Delegate is installed in your target infrastructure, for example, a Kubernetes cluster. 
+The first time you connect Harness to a third-party resource, Harness Delegate is installed in your target infrastructure, for example, in your Kubernetes cluster. 
 
-After the Delegate is installed, you connect to third-party resources. The Delegate performs all operations, including deployment and integration.
+After the delegate is installed, you can connect to third-party resources. The delegate performs all operations, including deployment and integration.
 
-Harness Delegate is built for parallelism and performs tasks and deployments in parallel. The following table includes performance benchmarks for one NG Delegate executing perpetual tasks and parallel deployments in a Kubernetes environment.
-
+Harness Delegate is built for parallelism and performs tasks and deployments in parallel. The following table includes performance benchmarks produced in Harness NextGen for a delegate executing perpetual tasks and parallel deployments in a Kubernetes environment.
 
 
 | **Compute resources** | **Task type** | **Running in parallel** |
@@ -32,16 +31,17 @@ See [Delegate Requirements and Limitations](/docs/platform/2_Delegates/get-start
 Harness Delegate connects to Harness Manager over an outbound HTTPS/WSS connection.
 
 ![](./static/delegates-overview-00.png)
-The Delegate connects to Harness Manager (via SaaS) over a Secure WebSockets channel (WebSockets over TLS). The channel is used to send notifications of Delegate task events and to exchange connection heartbeats. The channel is not used to send task data itself.
 
-* **Heartbeat** - The Delegate sends a [heartbeat](https://en.wikipedia.org/wiki/Heartbeat_(computing)) to notify Harness Manager that it is running.
-* **Deployment data** - The Delegate sends information retrieved from API calls to Harness Manager for display on the **Deployments** page.
-* **Time series and log data for Continuous Verification** - The Delegate connects to the verification providers you configure and sends the data retrieved from those providers to Harness Manager for display in Harness Continuous Verification.
+The delegate connects to Harness Manager (via SaaS) over a Secure WebSockets channel (WebSockets over TLS). The channel is used to send notifications of delegate task events and to exchange connection heartbeats. The channel is not used to send task data.
+
+* **Heartbeat** - The delegate sends a [heartbeat](https://en.wikipedia.org/wiki/Heartbeat_(computing)) to notify Harness Manager that it is running.
+* **Deployment data** - The delegate sends information that is retrieved from API calls to Harness Manager for display on the **Deployments** page.
+* **Time series and log data for Continuous Verification** - The delegate connects to the verification providers you configure and sends the data that is retrieved from those providers to Harness Manager for display in Harness Continuous Verification.
 
 ### Where do I install the delegate?
 
-* **Evaluating Harness** - When evaluating Harness, you might want to install the Delegate locally. Ensure that it has access to the artifact sources, deployment environments, and verification providers you want to use with Harness.
-* **Development, QA, and Production** - The Delegate should be installed behind your firewall and in the same VPC as the micro-services you are deploying. The Delegate must have access to the artifact servers, deployment environments, and cloud providers it needs.
+* **Evaluating Harness** - Consider installing the delegate locally when you evaluate Harness. Ensure you provide the delegate access to the artifact sources, deployment environments, and verification providers you want to use in your production installation.
+* **Development, QA, and Production** - You should install the delegate behind your firewall and in the same VPC with the microservices you deploy. The delegate must have access to the required artifact servers, deployment environments, and cloud providers.
 
 ### Root vs non-root
 
@@ -64,22 +64,22 @@ https://harness-1.wistia.com/medias/rpv5vwzpxz-->
 For basic information on installing Harness Delegate, see the following topics:
 
 * [Install Harness Delegate on Kubernetes](/docs/platform/2_Delegates/install-delegates/kubernetes-delegates/install-harness-delegate-on-kubernetes.md)
-* [Install Harness Delegate Using Helm](/docs/platform/2_Delegates/install-delegates/kubernetes-delegates/install-harness-delegate-using-helm.md)
-* [Install a Docker Delegate](/docs/platform/2_Delegates/install-delegates/docker-delegates/install-a-docker-delegate.md)
-* [Install a Legacy Kubernetes Delegate](/docs/platform/2_Delegates/advanced-installation/install-a-kubernetes-delegate.md)
+* [Install Harness Delegate using Helm](/docs/platform/2_Delegates/install-delegates/kubernetes-delegates/install-harness-delegate-using-helm.md)
+* [Install a Docker delegate](/docs/platform/2_Delegates/install-delegates/docker-delegates/install-a-docker-delegate.md)
+* [Install a Legacy Kubernetes delegate](/docs/platform/2_Delegates/advanced-installation/install-a-kubernetes-delegate.md)
 
 For advanced installation topics, see the following:
 
-* [Automate Delegate Installation](/docs/platform/2_Delegates/advanced-installation/automate-delegate-installation.md)
-* [Install a Delegate with Third-Party Custom Tool Binaries](/docs/platform/2_Delegates/advanced-installation/install-a-delegate-with-3-rd-party-tool-custom-binaries.md)
+* [Automate delegate installation](/docs/platform/2_Delegates/advanced-installation/automate-delegate-installation.md)
+* [Install a delegate with third-party custom tool binaries](/docs/platform/2_Delegates/advanced-installation/install-a-delegate-with-3-rd-party-tool-custom-binaries.md)
 
 ### Delegate sizes
 
-One Delegate size does not fit all use cases, so Harness let's you pick from several options:
+One size does not fit all delegate use cases. Select the appropriate size for your installation.
 
 ![](./static/delegates-overview-01.png)
 
-Remember that the memory and CPU requirements are for the Delegate only. Your Delegate host/pod/container will need more computing resources for its operations systems and other services such as Docker or Kubernetes.
+The memory and CPU requirements support the delegate. The delegate host/pod/container requires compute resources *in addition to* the delegate requirements for operations and services including Docker or Kubernetes.
 
 
 ### How does Harness Manager pick delegates?
@@ -87,28 +87,28 @@ Remember that the memory and CPU requirements are for the Delegate only. Your De
 Delegates are used by Harness for all operations. For example:
 
 * **Connectors:** Connectors are used for all third-party connections.
-* **Pipeline Services and Infrastructure:** Connectors are used in Pipeline Service connections to repos and Pipeline Infrastructure connections to target environments (deployment targets, build farms, etc).
-* **Pipeline Steps:** you can select a Delegate in each Pipeline step to ensure that the step only uses that Delegate to perform its operation.
+* **Pipeline Services and Infrastructure:** Connectors are used in pipeline service connections to repositories and pipeline infrastructure connections to target environments These include deployment targets, build farms, and so on.
+* **Pipeline Steps:** You can select a delegate in each pipeline step to ensure that the step only uses that delegate to perform its operation.
 
-In the case of all these Delegate uses, you can select that one or more specific Delegates to perform the operation (using Delegate Tags). If you do not specify specific Delegates, then Harness will assign the task to a Delegate.
+In the case of all these delegate uses, you can select that one or more specific delegates to perform the operation (using delegate tags). If you do not specify specific delegates, then Harness will assign the task to a delegate.
 
 #### Task assignment
 
-In cases where you have selected specific Delegates to perform the task, Harness uses those Delegate only. If these Delegates cannot perform the task, Harness does not use another Delegate.
+In cases where you have selected specific delegates to perform the task, Harness uses those delegates only. If these delegates cannot perform the task, Harness does not use another Delegate.
 
-In cases where you do not select specific Delegates, Harness uses any available Delegate to perform the task. Harness uses the follow process and criteria to pick a Delegate.
+In cases where you do not select specific delegates, Harness uses any available delegate to perform the task. Harness uses the following process and criteria to pick a delegate.
 
-When a task is ready to be assigned, the Harness Manager first validates its lists of Delegates to see which Delegate should be assigned the task.
+When a task is ready to be assigned, the Harness Manager first validates its lists of delegates to see which delegate should be assigned the task.
 
-The following information describes how the Harness Manager validates and assigns tasks to a Delegate:
+The following information describes how the Harness Manager validates and assigns tasks to a delegate:
 
-* **Heartbeats** - Running Delegates send heartbeats to the Harness Manager in 1 minute intervals. If the Manager does not have a heartbeat for a Delegate when a task is ready to be assigned, it will not assign the task to that Delegate.
-* **Tags** - For more information, see [Select Delegates with Tags](/docs/platform/2_Delegates/manage-delegates/select-delegates-with-selectors.md).
+* **Heartbeats** - Running delegates send heartbeats to the Harness Manager in one-minute intervals. If the danager does not have a heartbeat for a delegate when a task is ready to be assigned, it does not assign the task to that delegate.
+* **Tags** - For more information, see [Select delegates with tags](/docs/platform/2_Delegates/manage-delegates/select-delegates-with-selectors.md).
 * **Capability** - The delegate checks connectivity to your external systems to determine whether it can carry out the task. This process allows other delegates to assist in case access issues are found. 
 
 #### Delegate selection in pipelines
 
-As stated above, Delegates are selected in Service and Infrastructure Connectors and in steps.
+As stated above, delegates are selected in Service and Infrastructure Connectors and in steps.
 
 For example, in the **Infrastructure** section of a stage, there is a **Connector** setting. For Harness CD, this is the Connector to the target infrastructure. For Harness CI, this is Connector to the build farm.
 
