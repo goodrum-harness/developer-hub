@@ -110,35 +110,37 @@ The following information describes how the Harness Manager validates and assign
 
 As stated above, delegates are selected in Service and Infrastructure Connectors and in steps.
 
-For example, in the **Infrastructure** section of a stage, there is a **Connector** setting. For Harness CD, this is the Connector to the target infrastructure. For Harness CI, this is Connector to the build farm.
+For example, in the **Infrastructure** section of a stage, there is a **Connector** setting. For Harness CD, this is the connector to the target infrastructure. For Harness CI, this is connector to the build farm.
 
 ![](./static/delegates-overview-02.png)
-When you add Connectors to Harness, you can select several or all Delegates for the Connector to use.
+
+You can select one or more delegates for a connector to use.
 
 Each CD step in the stage Execution has a **Delegate Selector** setting.
 
 ![](./static/delegates-overview-03.png)
-Here you use Delegate Tags to select the Delegate(s) to use.
+
+Here you use tags to select the delegate to use.
 
 #### Which delegate is used during pipeline execution?
 
-The Delegates assigned to Connectors and steps are used during Pipeline execution.
+The delegates assigned to connectors and steps are used during pipeline execution.
 
-If no Delegates are selected, then the Delegates are selected as described in [Task Assignment](/docs/platform/2_Delegates/get-started-with-delegates/delegates-overview.md#task-assignment).
+If no delegates are selected, the delegates are selected as described in [Task Assignment](/docs/platform/2_Delegates/get-started-with-delegates/delegates-overview.md#task-assignment).
 
-If no Delegates are selected for a CD step in its **Delegate Selector** setting, Harness prioritizes the Delegate used successfully for the Infrastructure Connector.
+If no delegates are selected for a CD step in its **Delegate Selector** setting, Harness prioritizes the delegate used successfully for the Infrastructure Connector.
 
-Harness will try this Delegate first for the step task because this Delegate has been successful in the target environment.
+Harness will try this delegate first for the step task because this delegate has been successful in the target environment.
 
-Most CI steps use Connectors to pull the image of the container where the step will run. The Delegates used for the step's Connector are not necessarily used for running the step. In general, the Delegate(s) used for the Connector in the **Infrastructure** build farm is used to run the step.
+Most CI steps use connectors to pull the image of the container where the step will run. The delegates used for the step's connector are not necessarily used for running the step. In general, the delegates that are used for the connector in the **Infrastructure** build farm run the step.
 
 ### Delegate high availability (HA)
 
-You might need to install multiple Delegates depending on how many Continuous Delivery tasks you do concurrently, and on the compute resources you are providing to each Delegate. Typically, you will need one Delegate for every 300-500 service instances across your applications.
+You might need to install multiple delegates depending on how many continuous delivery tasks you do concurrently, and on the compute resources you are providing to each delegate. Typically, you need one delegate for every 300 to 500 service instances across your applications.
 
-In addition to compute considerations, you can enable High Availability (HA) for Harness Delegates. HA simply involves installing multiple Delegates in your environment.
+In addition to compute considerations, you can enable High Availability (HA) for Harness delegates. HA simply involves installing multiple delegates in your environment.
 
-For example, your Kubernetes deployment could include two Kubernetes Delegates, each running in its own pod in the same target cluster. To add Delegates to your deployment, increase the desired count of Delegate replica pods in the **spec** section of the harness-kubernetes.yaml file that you download from Harness:
+For example, your Kubernetes deployment could include two Kubernetes delegates, each running in its own pod in the same target cluster. To add delegates to your deployment, increase the desired count of delegate replica pods in the **spec** section of the harness-kubernetes.yaml file that you download from Harness:
 
 
 ```
@@ -173,54 +175,54 @@ Delegates are scoped in two ways:
 
 #### Project/Org/Accounts
 
-You can add Delegates at the Project, Org, and Account level. Delegate availability then becomes subject to Harness implicit Project, Org, and Account hierarchy.
+You can add delegates at the Project, Org, and Account level. Delegate availability then becomes subject to Harness implicit Project, Org, and Account hierarchy.
 
-For example, let's look at two users, Alex and Uri, and the Delegates (D*n*) available to them:
+For example, let's look at two users, Alex and Uri, and the delegates (D*n*) available to them:
 
 ![](./static/delegates-overview-04.png)
 
-Alex's Pipelines can use Delegates D1, D2, or D4.
+Alex's pipelines can use delegates D1, D2, or D4.
 
-Uri's Pipelines can use Delegates D1, D3, or D5.
+Uri's pipelines can use delegates D1, D3, or D5.
 
 ### Delegate tags
 
-When Harness makes a connection via its Delegates, it will select the best Delegate according to [How Does Harness Manager Pick Delegates?](#how_does_harness_manager_pick_delegates).
+When Harness makes a connection via its delegates, it will select the best delegate according to [How Does Harness Manager Pick Delegates?](#how_does_harness_manager_pick_delegates).
 
-To ensure a specific Delegate is used by a Harness entity, you can add Tags to Delegates and then reference the Tags in commands and Connectors.
+To ensure a specific delegate is used by a Harness entity, you can add tags to delegates and then reference the tags in commands and connectors.
 
 See [Select Delegates with Tags](/docs/platform/2_Delegates/manage-delegates/select-delegates-with-selectors.md).
 
 ### Delegate log file
 
-The Delegate creates a new log file each day, named **delegate.log**, and its maximum size is 50MB.
+The Delegate creates a new log file each day, named **delegate.log**, and its maximum size is 50 MB.
 
 Every day the log file is saved with the day's date and a new log file is created.
 
-If a log file grows beyond 50MB in a day, the log file is renamed with today's date and a new log file is created.
+If a log file grows beyond 50 MB in a day, the log file is renamed with today's date and a new log file is created.
 
-Harness keeps log files for today and the previous 10 days (up to one 1GB).
+Harness keeps log files for today and the previous 10 days (up to one 1 GB).
 
 ### Delegate permissions
 
-You can set permissions on Delegates using [Harness RBAC](/docs/platform/4_Role-Based-Access-Control/1-rbac-in-harness.md).
+You can set permissions on delegates using [Harness RBAC](/docs/platform/4_Role-Based-Access-Control/1-rbac-in-harness.md).
 
-You create roles and then assign them to Harness Users.
+You create roles and then assign them to Harness users.
 
-There are role permissions for Delegates:
+There are role permissions for delegates:
 
 The permissions are:
 
 * **Delegate permissions:** Create/Edit, Delete, View.
-* The Delegate **View** permission cannot be disabled. Every user has the permission to view the Delegate.
+* The delegate **View** permission cannot be disabled. Every user has the permission to view the delegate.
 
-Access to a Delegate can also be restricted by downstream resource types:
+Access to a delegate can also be restricted by downstream resource types:
 
 * **Pipelines:** Execute
 * **Secrets:** Access
 * **Connectors:** Access
 
-This means that if a role does not have these permissions the User with that role cannot use the related Delegates in these Pipelines, Secrets, or Connectors.
+This means that if a role does not have these permissions the User with that role cannot use the related delegates in these pipelines, secrets, or connectors.
 
 ### Third-party tools installed with the delegate
 
