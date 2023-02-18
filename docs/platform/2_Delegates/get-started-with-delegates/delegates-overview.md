@@ -102,7 +102,7 @@ When a task is ready to be assigned, the Harness Manager first validates its lis
 
 The following information describes how the Harness Manager validates and assigns tasks to a delegate:
 
-* **Heartbeats** - Running delegates send heartbeats to the Harness Manager in one-minute intervals. If the danager does not have a heartbeat for a delegate when a task is ready to be assigned, it does not assign the task to that delegate.
+* **Heartbeats** - Running delegates send heartbeats to the Harness Manager in one-minute intervals. If the manager does not have a heartbeat for a delegate when a task is ready to be assigned, it does not assign the task to that delegate.
 * **Tags** - For more information, see [Select delegates with tags](/docs/platform/2_Delegates/manage-delegates/select-delegates-with-selectors.md).
 * **Capability** - The delegate checks connectivity to your external systems to determine whether it can carry out the task. This process allows other delegates to assist in case access issues are found. 
 
