@@ -1,6 +1,6 @@
 ---
 title: Delegate registration and verification
-description: To set up a Harness Delegate, you install the Delegate in your environment and the Delegate automatically registers with your Harness account. The Delegate config file (for example, Kubernetes Delega…
+description: This topic explains the process used to register and verify a delegate.
 # sidebar_position: 2
 helpdocs_topic_id: 39tx85rekj
 helpdocs_category_id: m9iau0y3hv
@@ -8,51 +8,62 @@ helpdocs_is_private: false
 helpdocs_is_published: true
 ---
 
-To set up a Harness Delegate, you install the Delegate in your environment and the Delegate automatically registers with your Harness account.
 
-The Delegate config file (for example, Kubernetes Delegate YAML file) contains your Harness account Id. That's how the Delegate knows where to register.
+
+Delegates register with Harness Manager immediately after they are installed. The process of registration is automatic and takes place when you verify delegate installation. 
+
+The delegate configuration file specifies your Harness account ID. For example, for a Kubernetes delegate, your account ID is specified in the manfiest file. The delegate is registered with your Harness account.
 
 ### Installing and registering delegates
 
-To install a Delegate, follow the steps in the relevant Delegate installation topic, such as [Install a Kubernetes Delegate](/docs/platform/2_Delegates/advanced-installation/install-a-kubernetes-delegate.md) or [Install a Docker Delegate](/docs/platform/2_Delegates/install-delegates/docker-delegates/install-a-docker-delegate.md).
+### Delegate installation
 
-Once you have installed the Delegate in your environment, click **Verify** in the Delegate wizard and Harness will verify that it is receiving heartbeats from the Delegate.
+To install a delegate, follow the instructions for the type of delegate you install and the mode of installation you use. 
 
-![](static/delegate-registration-01.png)
-This means Harness is waiting for the Delegate you installed to register.
+- For a Kubernetes delegate, use the instructions in [Install a Kubernetes Delegate](/docs/platform/2_Delegates/advanced-installation/install-a-kubernetes-delegate.md). 
+- For a Docker delegate, use the instructions in [Install a Docker Delegate](/docs/platform/2_Delegates/install-delegates/docker-delegates/install-a-docker-delegate.md).
 
-Registration can take a few minutes.
+### Delegate registration
 
-Once the Delegate registers, the **Verify** screen will indicate that the Delegate is running.
+Delegates register with Harness Manager during the verification process. The process is as follows:
 
-### Verifying delegate registration manually
+- You initiate the verification process by clicking **Verify** in the delegate installer. 
 
-The Verify screen also includes troubleshooting steps.
+- Harness Manager verifies the receipt of heartbeats from the delegate. 
 
-Here are a few of the steps for the Kubernetes Delegate.
+  ![](static/delegate-registration-01.png)
 
-Check the status of the Delegate on your cluster:
+  Heartbeats indicate that the delegate is registering with Harness Manager.  The process of registration might take several minutes.
 
+- After the delegate completes the registration process, the **Verify** screen will indicate that the Delegate is running.
+
+### Manual verification
+
+You can find information on how to manually verify delegate registration on the Verify page in the delegate installation. The basic steps for a Kubernetes delegate follow.
+
+#### Verify a Kubernetes delegate
+
+Check the status of the delegate on your cluster:
 
 ```
 kubectl describe pod <your-delegate-pod> -n harness-delegate-ng
 ```
-Check the Delegate logs:
 
+Check the delegate logs:
 
 ```
 kubectl logs -f <harness-delegate> -n harness-delegate-ng
 ```
-If the pod isn't up, you might see the following error in your cluster:
 
+If the pod is not running, check your cluster for the following error:
 
 ```
 CrashLoopBackOff: Kubernetes Cluster Resources are not available.
 ```
-Make sure the Kubernetes Cluster Resources (CPU, Memory) are enough.
 
-If the Delegate didn’t reach a healthy state, try this:
+If you have a `CrashLookpBackOff` error, check the allocation of compute resources including CPU and memory.  
 
+If the delegate does not reach a healthy state, use `kubectl describe` instruction to investigate the problem further:
 
 ```
 kubectl describe pod <your-delegate-pod> -n harness-delegate-ng
